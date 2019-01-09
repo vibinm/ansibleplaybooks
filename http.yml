@@ -1,0 +1,21 @@
+---
+- name: Install a webserver
+  hosts: all
+  remote_user: root
+
+  tasks:
+    - name: Install http rpm
+      yum:
+        name: ['httpd', 'elinks'] 
+        state: present
+
+    - name: Copy the index html file
+      copy:
+        src: templates/index.html
+        dest: /var/www/html/index.html
+
+    - name: Start the service
+      service:
+        name: httpd
+        state: started
+        enabled: true    

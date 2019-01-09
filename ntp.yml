@@ -1,0 +1,23 @@
+---
+- name: NTP Installation & Configuration from template
+  hosts: client2
+  remote_user: root
+
+  tasks:
+    - name: Install NTP rpm
+      yum:
+          name: ntp
+          state: installed
+
+    - name: Replace conf file with NTP template
+      template:
+          src: templates/ntpconf.j2
+          dest: /etc/ntp.conf
+      notify: restart_ntp
+
+  handlers:
+    - name: restart_ntp 
+      service: 
+          name: ntpd
+          state: restarted
+          enabled: yes

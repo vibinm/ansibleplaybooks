@@ -1,0 +1,11 @@
+---
+- name: Copy dir
+  hosts: client1
+  remote_user: root
+  tasks:
+
+  - name: Copy Dir
+    copy:
+      src: /etc
+      dest: /tmp
+      #directory_mode: yes
