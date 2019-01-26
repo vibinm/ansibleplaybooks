@@ -217,3 +217,21 @@ git pull -u origin master
 ll
 git push -u origin master
 cp -prv * /root/
+ll
+git commit -m "first"
+git status
+git init
+git status
+git add -A
+git status
+git commit -m "first"
+git remote add origin https://github.com/vibinm/ansibleplaybooks.git
+git push -u origin master
+git status
+ll
+clear
+wget https://github.com/vinodmv555/Sample_playbooks/blob/master/ansiblefacts.yml 
+ll
+ls -lrt
+sudo cp -prv /var/lib/awx/projects/
+ll /var/lib/awx/projects
