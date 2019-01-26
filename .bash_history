@@ -235,3 +235,14 @@ ll
 ls -lrt
 sudo cp -prv /var/lib/awx/projects/
 ll /var/lib/awx/projects
+ll
+rm -rf *.retry
+ll
+goit status
+git status
+ll
+git add -A
+git commit -m "fc"
+git status
+git push -u origin master
+git pull https://github.com/vibinm/ansibleplaybooks.git
