@@ -201,3 +201,19 @@ tree apache/
 clear
 dmesg
 fdisk -l
+ll
+git init
+ll
+git status
+git add -A
+git status
+git commit -m "firstcommit"
+git status
+git log
+git remote add origin https://github.com/vibinm/ansibleplaybooks.git
+git remote
+git push -u origin master
+git pull -u origin master
+ll
+git push -u origin master
+cp -prv * /root/

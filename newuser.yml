@@ -1,0 +1,19 @@
+---
+- name: Add a new user
+  hosts: all
+  tasks:
+
+  - name: Create a new user account
+    user:
+      name: vibinm
+      comment: "ansible user"
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+      password: "{{ 'redhat' | password_hash('sha512') }}"
+
+  - name: Copy SSH keys
+    authorized_key:
+      user: vibinm
+      state: present
+      key: "{{ lookup('file', '/home/vibinm/.ssh/id_rsa.pub') }}"
