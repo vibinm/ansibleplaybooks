@@ -1,0 +1,11 @@
+---
+- name: Testing include variables and playbooks
+  hosts: all
+  become: yes
+
+  tasks: 
+    - name: Include external variable file
+      include_vars: vars.yml
+
+    - name: Include external playbook
+      include: varplay.yml

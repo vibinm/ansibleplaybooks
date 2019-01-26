@@ -1,0 +1,15 @@
+---
+- name: Testing bind & mount
+  hosts: client1
+  become: yes
+
+  tasks:
+    - name: Bind /boot to /mnt
+      mount:
+        path: /mnt
+        src: /boot/grub2
+        opts: bind,nodev,noexec,nosuid
+        fstype: none
+        state: mounted
+      with_items: "{{ ansible_mounts }}"
+      when: item.mount != "/mnt"

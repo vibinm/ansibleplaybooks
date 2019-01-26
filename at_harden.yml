@@ -1,0 +1,9 @@
+---
+ - name: Check whether the config file exist
+   stat:
+     path: /etc/at.deny
+   register: out
+   
+ - name: Rename the at.deny config file if exists
+   command: mv /etc/at.deny /etc/at.deny.orig
+   when: out.stat.exists

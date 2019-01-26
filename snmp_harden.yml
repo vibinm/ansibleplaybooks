@@ -1,0 +1,27 @@
+---
+ - name: Download the harden check scripts
+   get_url: 
+     url: file:///tmp/harden_check.sh
+     dest: /opt/harden_check.sh
+     mode: 755
+
+ - name: Download the analyse harden script
+   get_url:
+     url: file:///tmp/analyse_harden_snmp.sh
+     dest: /opt/analyse_harden_snmp.sh
+     mode: 755
+
+ - name: Install snmp package
+   yum:
+     name: net-snmp
+     state: latest
+
+ - name: Add a new line in snmpd configuration file
+   blockinfile:
+     path: /etc/snmp/snmpd.conf
+     backup: yes
+     block: |
+       # SNMP Extend MIB for hardening   
+       extend hardening_values /bin/bash /opt/harden_check.sh
+     state: present
+   notify: restart_snmpd

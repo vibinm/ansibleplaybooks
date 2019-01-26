@@ -1,0 +1,16 @@
+---
+- name: Include variables
+
+- name: Install http
+
+- name: Copy index html from jinja2 template
+
+- name: Allow http in firewall
+
+- name: Start http service
+
+- name: Start firewalld service
+
+- name: Handlers
+
+- name: Check the status of web url

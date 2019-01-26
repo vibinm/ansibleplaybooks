@@ -1,0 +1,35 @@
+---
+- name: Test handlers
+  hosts: client1
+  become: true
+  vars:
+    package: httpd
+    service: httpd
+    dst_file: /var/www/html/index.html
+
+  tasks:
+    - name: Install the package
+      yum: 
+        name: "{{ package }}"
+        state: latest
+
+    - name: Copy the index file
+      copy:
+        content: "This is testing handler playbook"
+        dest: "{{ dst_file }}"
+      notify: restart_apache
+
+    - name: Check the URL
+      uri:
+        url: http://192.168.0.6
+        return_content: yes
+      register: output
+
+    - debug:
+        var: output
+  handlers:
+    - name: restart_apache
+      service:
+        name: httpd
+        state: restarted
+

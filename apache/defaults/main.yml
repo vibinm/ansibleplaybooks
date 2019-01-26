@@ -1,0 +1,6 @@
+---
+# defaults file for apache
+web_pkg: httpd
+mail_pkg: postfix
+web_service: httpd
+mail_service: postfix

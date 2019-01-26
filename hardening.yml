@@ -1,0 +1,27 @@
+---
+- name: Server hardening
+  hosts: client1
+  become: yes
+  ignore_errors: yes
+
+  tasks:
+    - name: Calling external hardening playbooks    
+      include: "{{ line_item }}"
+      with_items:
+        - snmp_harden.yml
+        - ssh_harden.yml
+        - at_harden.yml
+        - rpm_harden.yml
+      loop_control:
+        loop_var: line_item
+
+  handlers:
+    - name: restart_snmpd
+      service:
+        name: snmpd
+        state: restarted
+
+    - name: restart_sshd
+      service:
+        name: sshd
+        state: restarted

@@ -1,0 +1,20 @@
+---
+- name: Testing tags
+  hosts: client1
+  become: true
+  vars:
+    web_pkg: httpd
+    mail_pkg: postfix
+
+  tasks:
+    - name: Install {{ web_pkg }} package
+      yum:
+        name: "{{ web_pkg }}"
+        state: latest
+      tags: webserver
+
+    - name: Install {{ mail_pkg }} package
+      yum:
+        name: "{{ mail_pkg }}"
+        state: latest
+      tags: mailserver

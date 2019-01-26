@@ -1,0 +1,35 @@
+---
+#- name: Deploy and start httpd service
+ 
+#  tasks:
+    - name: Install the {{ web_pkg }} && {{ firewall_pkg }}
+      yum:
+        name:
+          - "{{ web_pkg }}"
+          - "{{ firewall_pkg }}"
+        state: latest
+      register: output
+
+    - name: Testing debug ouput      
+      debug: 
+        msg: The default IPv4 address of {{ ansible_fqdn }} is {{ ansible_default_ipv4.address }}
+
+    - name: The {{ firewall_service }} service is started and enabled
+      service:
+        name: "{{ firewall_service }}"
+        enabled: true
+        state: started
+
+    - name: The {{ web_service }} service is started and enabled
+      service:
+        name: "{{ web_service }}"
+        enabled: true
+        state: started
+    
+    - name: Allow {{ rule }} in firewall
+      firewalld:
+        service: "{{ rule }}"
+        immediate: true
+        permanent: true
+        state: enabled
+

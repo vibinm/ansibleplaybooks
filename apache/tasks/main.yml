@@ -1,0 +1,44 @@
+---
+# tasks file for apache
+- name: Install {{ web_pkg }}
+  yum:
+    name: "{{ web_pkg }}"
+    state: latest
+
+- name: Install {{ mail_pkg }}
+  yum: 
+    name: "{{ mail_pkg }}"
+    state: latest
+
+- name: Start the mail server
+  service:
+    name: "{{ mail_service }}"
+    state: started
+    enabled: yes
+
+- name: Start the web server
+  service:
+    name: "{{ web_service }}"
+    state: started
+    enabled: yes
+
+- name: Copy the configuration file
+  template:
+    src: httpd.conf.template
+    dest: /etc/httpd/conf/httpd.conf
+  notify: restart_apache
+
+- name: Copy the index html file
+  copy:
+    src: index.html
+    dest: /var/www/html/index.html
+  notify: restart_apache
+
+- name: Test the new webserver
+  uri:
+    url: http://192.168.0.7
+    return_content: yes
+  register: web_content
+
+- debug:
+    var: web_content.content

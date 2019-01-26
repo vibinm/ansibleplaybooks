@@ -1,0 +1,16 @@
+---
+- name: Testing the WHEN conditional statement
+  hosts: client1
+  become: true
+  vars:
+    package: screen  
+  tasks:
+    - name: Install screen package only if distribution is Oracle Linux version 7
+      yum:
+        name: "{{ package }}"
+        state: latest
+      when: ansible_distribution == "OracleLinux" and ansible_distribution_major_version == "7"
+      register: output
+
+    - debug:
+        var: output

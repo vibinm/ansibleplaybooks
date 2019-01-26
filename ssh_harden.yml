@@ -1,0 +1,19 @@
+---
+ - name: SSH Configuration Hardening
+   lineinfile:
+     path: /etc/ssh/sshd_config
+     regexp: "{{ item.regexp }}"
+     line: "{{ item.line }}"
+   with_items:
+     - { regexp: '^(#)?ClientAliveInterval' , line: 'ClientAliveInterval 900' }
+     - { regexp: '^(#)?ClientAliveCountMax', line: 'ClientAliveCountMax 0' }
+     - { regexp: '^(#)?PermitEmptyPasswords' , line: 'PermitEmptyPasswords no' }
+     - { regexp: '^(#)?MaxAuthTries' , line: 'MaxAuthTries 5' }
+     - { regexp: '^(#)?Banner' , line: 'Banner /etc/ssh/sshd-banner' }
+     - { regexp: '^(#)?PermitRootLogin' , line: 'PermitRootLogin yes' }
+     - { regexp: '^(#)?LogLevel' , line: 'LogLevel INFO' }
+     - { regexp: '^(#)?LoginGraceTime'  , line: 'LoginGraceTime 60' }
+     - { regexp: '^(#)?HostbasedAuthentication' , line: 'HostbasedAuthentication no' }
+     - { regexp: '^(#)?IgnoreRhosts' , line: 'IgnoreRhosts yes' }
+     - { regexp: '^(#)?X11Forwarding' , line: 'X11Forwarding no' }
+   notify: restart_sshd

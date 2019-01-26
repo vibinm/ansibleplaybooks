@@ -1,0 +1,7 @@
+packages:
+  - httpd
+  - firewalld
+
+servs:
+  web_service: httpd
+  firewall_service: firewalld

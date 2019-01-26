@@ -1,0 +1,59 @@
+---
+- name: Complete playbook
+  hosts: client02.local.com
+  become: yes
+  vars_files: 
+    - vars.yml
+  
+  tasks:
+    - name: Install packages
+      yum:
+        name: "{{ packages }}"
+        state: latest
+
+    - name: Copy the configuration template
+      template:
+        src: templates/httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+
+    - name: Start the services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - "{{ servs.web_service }}"
+        - "{{ servs.firewall_service }}"
+
+    - name: Allow http in firewall
+      firewalld:
+        service: http
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+    - name: Copy the index html
+      copy:
+        content: "This is a complete playbook"
+        dest: /var/www/html/index.html
+      notify: restart_httpd
+
+  handlers:
+    - name: restart_httpd
+      service: 
+        name: httpd
+        state: restarted
+
+- name: Test the website
+  hosts: localhost
+  tasks:
+    - name: Test the URL
+      uri:
+        url: http://192.168.0.7
+        return_content: yes
+      register: web_content
+
+    - name: Display the web content
+      debug:
+        var: web_content
+
