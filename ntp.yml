@@ -1,6 +1,6 @@
 ---
 - name: NTP Installation & Configuration from template
-  hosts: client2
+  hosts: node01.mydomain.com
   remote_user: root
 
   tasks:
