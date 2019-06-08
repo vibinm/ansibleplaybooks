@@ -1,0 +1,10 @@
+---
+- name: NTP Uninstallation
+  hosts: 192.168.222.129
+  remote_user: root
+
+  tasks:
+    - name: Uninstall NTP rpm
+      yum:
+          name: ntp
+          state: removed
